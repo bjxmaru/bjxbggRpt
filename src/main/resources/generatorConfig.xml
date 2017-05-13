@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <context id="oraclegenerator" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <!-- 该插件给实体类添加toString()方法  -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+
+        <!-- 这个插件给由MBG生成的Java模型对象增加了equals和hashCode方法 -->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+
+        <!-- 不希望生成的注释中包含时间戳 -->
+        <commentGenerator>
+            <property name="suppressDate" value="true" />
+        </commentGenerator>
+
+        <!--数据库连接信息-->
+        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+                        connectionURL="jdbc:oracle:thin:@localhost:1521:bjx"
+                        userId="thnc"
+                        password="1" />
+        <!--代码相关路径和包-->
+
+        <!-- 指定生成的类型为java类型，避免数据库中number等类型字段 -->
+        <!--
+            true：使用BigDecimal对应DECIMAL和 NUMERIC数据类型
+            false：默认,
+                scale>0;length>18：使用BigDecimal;
+                scale=0;length[10,18]：使用Long；
+                scale=0;length[5,9]：使用Integer；
+                scale=0;length<5：使用Short；
+         -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.bjx.domain.oracle" targetProject="src/main/java" >
+            <!-- 是否  自动为每一个生成的类创建一个构造方法-->
+            <property name="constructorBased" value="false"/>
+            <property name="useActualColumnNames" value="true" />
+            <!-- 在targetPackage的基础上，根据数据库的schema再生成一层package-->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 是否创建一个不可变的类 -->
+            <property name="immutable" value="false"/>
+            <!-- 设置是否在getter方法中，对String类型字段调用trim()方法 -->
+            <property name="trimStrings" value="true"/>
+            <!--<property name="rootClass" value="cn.edu.hdu.mbgdemo.base.BaseModel"/>-->
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="com.bjx.dao.oracle" targetProject="src/main/java" >
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.bjx.dao.oracle" targetProject="src/main/java" >
+            <property name="enableSubPackages" value="false"/>
+            <!--<property name="rootInterface" value="cn.edu.hdu.mbgdemo.base.BaseDao"/>-->
+        </javaClientGenerator>
+
+        <!--表名-->
+
+        <!--<table tableName="bd_invcl" mapperName="InvClassDao" schema="thnc"  />-->
+
+        <table tableName="bd_defdoc" mapperName="DefDocDao" schema="thnc"  />
+
+    </context>
+
+
+
+    <context id="mysqlgenerator" targetRuntime="MyBatis3" defaultModelType="flat">
+
+    <!-- 该插件给实体类添加toString()方法  -->
+    <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+
+    <!-- 这个插件给由MBG生成的Java模型对象增加了equals和hashCode方法 -->
+    <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+
+    <!-- 不希望生成的注释中包含时间戳 -->
+    <commentGenerator>
+        <property name="suppressDate" value="true" />
+    </commentGenerator>
+
+    <!--数据库连接信息-->
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                    connectionURL="jdbc:mysql://127.0.0.1:3306/bjx"
+                    userId="kettle"
+                    password="1" />
+    <!--代码相关路径和包-->
+
+    <!-- 指定生成的类型为java类型，避免数据库中number等类型字段 -->
+    <!--
+        true：使用BigDecimal对应DECIMAL和 NUMERIC数据类型
+        false：默认,
+            scale>0;length>18：使用BigDecimal;
+            scale=0;length[10,18]：使用Long；
+            scale=0;length[5,9]：使用Integer；
+            scale=0;length<5：使用Short；
+     -->
+    <javaTypeResolver>
+        <property name="forceBigDecimals" value="false"/>
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.bjx.domain.mysql" targetProject="src/main/java" >
+        <!-- 是否  自动为每一个生成的类创建一个构造方法-->
+        <property name="constructorBased" value="false"/>
+        <property name="useActualColumnNames" value="true" />
+        <!-- 在targetPackage的基础上，根据数据库的schema再生成一层package-->
+        <property name="enableSubPackages" value="false"/>
+        <!-- 是否创建一个不可变的类 -->
+        <property name="immutable" value="false"/>
+        <!-- 设置是否在getter方法中，对String类型字段调用trim()方法 -->
+        <property name="trimStrings" value="true"/>
+        <!--<property name="rootClass" value="cn.edu.hdu.mbgdemo.base.BaseModel"/>-->
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="com.bjx.dao.mysql" targetProject="src/main/java" >
+        <property name="enableSubPackages" value="false"/>
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.bjx.dao.mysql" targetProject="src/main/java" >
+        <property name="enableSubPackages" value="false"/>
+        <!--<property name="rootInterface" value="cn.edu.hdu.mbgdemo.base.BaseDao"/>-->
+    </javaClientGenerator>
+
+    <!--表名-->
+
+   <!-- <table tableName="func_tree" mapperName="FuncTreeDao" schema="kettle"  />-->
+
+        <table tableName="test" mapperName="TestDao" schema="kettle"  />
+
+    </context>
+
+
+
+</generatorConfiguration>

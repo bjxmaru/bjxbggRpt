@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html  lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <title>报表附注</title>
+    <script src="/bjxbggRpt/easyui/jquery.min.js"></script>
+    <script src="/bjxbggRpt/easyui/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" href="/bjxbggRpt/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" href="/bjxbggRpt/easyui/themes/icon.css">
+    <link rel="shortcut icon" href="/bjxbggRpt/imgs/favicon.ico" type="image/x-icon"/>
+</head>
+<body class="easyui-layout">
+
+<div data-options="region:'north',title:'集团报表附注系统',split:true ,collapsible:false,minHeight:'60px',maxHeight:'60px' " >
+    <div style="margin-bottom: 0;">
+        <a id="btnExcel" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-excel'" style="float:right;margin-right:10px">导出到EXCEL</a>
+        <a id="btnSearch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" style="float:right;margin-right:10px">搜索</a>
+    </div>
+
+</div>
+<div data-options="region:'south',title:'South Title',split:true" style="height:100px;"></div>
+<div data-options="region:'east',title:'East',split:true" style="width:100px;"></div>
+<div data-options="region:'west',title:'功能菜单',split:true" style="width:200px;">
+    <ul id="func_tree"></ul>
+</div>
+<div data-options="region:'center',title:'报表功能面板'" style="padding:0px;background:#eee;">
+    <div id="central_panel" class="easyui-tabs" data-options="fit:true"/>
+</div>
+
+<script>
+
+    var currFuncTreeNode  = null;
+
+    var contextPath = "/bjxbggRpt";
+
+    var loadTabHrefJspDisp = contextPath + "/initRptCtr/tabHrefJspDisp.do?funcTreeId=" ;
+
+    $(function () {
+            initTree();
+        }
+    )
+
+
+
+    function test( str) {
+        alert(str);
+
+    }
+
+
+    //定义加载功能树的函数
+    function initTree() {
+        $('#func_tree').tree({
+            url: contextPath + "/initRptCtr/loadFuncTreeData.do?timer=" + new Date().getTime(),
+            formatter: function (node) {
+                return node.text;
+            },
+            onClick: treeOnClick
+
+        });
+    }
+
+    //定义树的叶子节点被被点击时候的，触发的处理程序
+    function treeOnClick(node) {
+
+
+        if (node.state == "closed") {
+
+            return;
+        }
+
+        if (node.state == "open" && node.children != null  && node.children.length > 0) {
+
+            return;
+        }
+
+        var tmpTab = $("#central_panel").tabs("getTab", node.text);
+
+        if (tmpTab !== null) {
+
+            $("#central_panel").tabs("select", node.text);
+
+        } else {
+
+            loadGrid(node) ;
+
+        }
+
+
+    }
+
+
+    //定义加载 datagrid的函数
+    function loadGrid(funcTreeNode) {
+
+        currFuncTreeNode = funcTreeNode ;
+
+        $("#central_panel").tabs(
+            "add" , {
+                "id": funcTreeNode.id + "tab",
+                "title": funcTreeNode.text,
+                "href": loadTabHrefJspDisp + funcTreeNode.id + "&timer=" + new Date().getTime(),
+                "closable": true,
+                onload:onTabPanelLoadSuccess
+            }
+
+        ) ;
+
+    }
+
+
+    function onTabPanelLoadSuccess() {
+
+        console.debug("ok,load panel");
+    }
+
+
+
+
+</script>
+
+
+</body>
+
+
+
+
+</html>

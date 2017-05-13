@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+   <context:property-placeholder location="classpath:db.properties" file-encoding="utf-8" ></context:property-placeholder>
+
+    <bean id="dataSourceMysql" class="com.alibaba.druid.pool.DruidDataSource"  init-method="init" destroy-method="close">
+
+        <property name="url" value="${jdbc.mysql.url}"></property>
+        <property name="driverClassName" value="${jdbc.mysql.driverClassName}"></property>
+        <property name="initialSize" value="${jdbc.mysql.initialSize}"></property>
+        <property name="maxActive" value="${jdbc.mysql.maxActive}"></property>
+        <property name="username" value="${jdbc.mysql.username}"></property>
+        <property name="password" value="${jdbc.mysql.password}"></property>
+        <property name="name"    value="${jdbc.mysql.name}"></property>
+
+    </bean>
+
+    <bean  id="sqlSessionFactoryMysql" class="org.mybatis.spring.SqlSessionFactoryBean" >
+
+        <property name="dataSource" ref="dataSourceMysql" />
+        <property name="configLocation" value="classpath:mybatisConfig-mysql.xml" />
+
+    </bean>
+
+    <bean id="mapperScannerMysql" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.bjx.dao.mysql"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryMysql"/>
+    </bean>
+
+
+<context:annotation-config></context:annotation-config>
+
+    <context:component-scan base-package="com.bjx.dao.mysql"/>
+
+    <bean id="dataSourceOracle" class="com.alibaba.druid.pool.DruidDataSource"  init-method="init" destroy-method="close">
+
+        <property name="url" value="${jdbc.oracle.url}"></property>
+        <property name="driverClassName" value="${jdbc.oracle.driverClassName}"></property>
+        <property name="initialSize" value="${jdbc.oracle.initialSize}"></property>
+        <property name="maxActive" value="${jdbc.oracle.maxActive}"></property>
+        <property name="username" value="${jdbc.oracle.username}"></property>
+        <property name="password" value="${jdbc.oracle.password}"></property>
+        <property name="name"    value="${jdbc.oracle.name}"></property>
+
+    </bean>
+
+
+    <bean  id="sqlSessionFactoryOracle" class="org.mybatis.spring.SqlSessionFactoryBean" >
+
+        <property name="dataSource" ref="dataSourceOracle" />
+        <property name="configLocation" value="classpath:mybatisConfig-oracle.xml" />
+
+    </bean>
+
+    <bean id="mapperScannerOracle" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.bjx.dao.oracle"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryOracle"/>
+    </bean>
+    
+
+
+
+</beans>
